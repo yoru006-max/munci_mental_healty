@@ -37,14 +37,42 @@ export default function GroundingPage() {
     setIsComplete(false)
   }
 
+  // Diferentes conjuntos de prompts para que cada vez sea diferente
+  const promptSets = [
+    [
+      { prompt: "Nombra algo que puedas VER a tu alrededor", placeholder: "Ej: Una ventana, una planta, un libro..." },
+      { prompt: "Encuentra algo que BRILLE cerca de ti", placeholder: "Ej: Una luz, algo metalico, un reflejo..." },
+      { prompt: "Busca algo de tu COLOR favorito", placeholder: "Ej: Mi camiseta, un lapiz, una taza..." },
+      { prompt: "Encuentra algo SUAVE que puedas ver", placeholder: "Ej: Una almohada, una cobija, peluche..." },
+      { prompt: "Busca algo que te haga SONREIR", placeholder: "Ej: Una foto, un dibujo, mi mascota..." },
+    ],
+    [
+      { prompt: "Encuentra algo REDONDO cerca de ti", placeholder: "Ej: Un reloj, una pelota, un plato..." },
+      { prompt: "Busca algo de color AZUL o VERDE", placeholder: "Ej: El cielo, una planta, mi ropa..." },
+      { prompt: "Nombra algo que este ARRIBA de ti", placeholder: "Ej: El techo, una lampara, las nubes..." },
+      { prompt: "Encuentra algo PEQUENO", placeholder: "Ej: Una moneda, un boton, una hormiga..." },
+      { prompt: "Busca algo que te de PAZ", placeholder: "Ej: Una planta, una foto, la ventana..." },
+    ],
+    [
+      { prompt: "Busca algo que tenga LETRAS o NUMEROS", placeholder: "Ej: Un libro, un reloj, un cartel..." },
+      { prompt: "Encuentra algo hecho de MADERA", placeholder: "Ej: Una mesa, una puerta, un lapiz..." },
+      { prompt: "Nombra algo que se pueda MOVER", placeholder: "Ej: Una cortina, las hojas, mi mano..." },
+      { prompt: "Busca algo de color CALIDO (rojo, naranja, amarillo)", placeholder: "Ej: Una fruta, el sol, una luz..." },
+      { prompt: "Encuentra algo que te recuerde a alguien ESPECIAL", placeholder: "Ej: Una foto, un regalo, un objeto..." },
+    ],
+  ]
+
+  // Seleccionar un conjunto aleatorio basado en el dia
+  const today = new Date().getDate()
+  const selectedSet = promptSets[today % promptSets.length]
+
   const prompts = [
     {
       number: 1,
       color: "from-primary/30 to-primary/10",
       borderColor: "border-primary/40",
       textColor: "text-primary",
-      prompt: "Nombra algo que puedas VER a tu alrededor",
-      placeholder: "Ej: Una ventana, una planta, un libro...",
+      ...selectedSet[0],
       emoji: "👁️",
     },
     {
@@ -52,17 +80,15 @@ export default function GroundingPage() {
       color: "from-chart-2/30 to-chart-2/10",
       borderColor: "border-chart-2/40",
       textColor: "text-chart-2",
-      prompt: "Nombra algo mas que puedas VER",
-      placeholder: "Ej: Una silla, una lampara, mi mochila...",
-      emoji: "👀",
+      ...selectedSet[1],
+      emoji: "✨",
     },
     {
       number: 3,
       color: "from-chart-3/30 to-chart-3/10",
       borderColor: "border-chart-3/40",
       textColor: "text-chart-3",
-      prompt: "Otra cosa que veas cerca de ti",
-      placeholder: "Ej: El techo, una puerta, mis zapatos...",
+      ...selectedSet[2],
       emoji: "🔍",
     },
     {
@@ -70,17 +96,15 @@ export default function GroundingPage() {
       color: "from-chart-4/30 to-chart-4/10",
       borderColor: "border-chart-4/40",
       textColor: "text-chart-4",
-      prompt: "Una cosa mas que este en tu espacio",
-      placeholder: "Ej: Una taza, un cuadro, el piso...",
-      emoji: "✨",
+      ...selectedSet[3],
+      emoji: "🌈",
     },
     {
       number: 5,
       color: "from-chart-5/30 to-chart-5/10",
       borderColor: "border-chart-5/40",
       textColor: "text-chart-5",
-      prompt: "La ultima cosa que puedas ver",
-      placeholder: "Ej: Mi mano, el cielo, una mascota...",
+      ...selectedSet[4],
       emoji: "🌟",
     },
   ]
