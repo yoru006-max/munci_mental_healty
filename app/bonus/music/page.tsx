@@ -49,7 +49,23 @@ export default function MusicPage() {
     } else {
       if (audioRef.current) {
         audioRef.current.src = playlists[index].url
-        audioRef.current.play()
+        // ensure browser loads the media and attempt playback with error handling
+        try {
+          audioRef.current.load()
+          const p = audioRef.current.play()
+          if (p && typeof p.then === "function") {
+            p.catch((err) => {
+              console.error("Playback failed:", err)
+              setIsPlaying(false)
+              // provide a simple UI hint
+              alert("No se pudo reproducir el audio. Comprueba la URL o el formato.")
+            })
+          }
+        } catch (err) {
+          console.error("Error al reproducir:", err)
+          setIsPlaying(false)
+          alert("No se pudo reproducir el audio en este navegador.")
+        }
       }
       setCurrentPlaying(index)
       setIsPlaying(true)
@@ -58,6 +74,13 @@ export default function MusicPage() {
 
   useEffect(() => {
     audioRef.current = new Audio()
+    // allow cross-origin requests if sources require it
+    try {
+      audioRef.current.crossOrigin = "anonymous"
+    } catch (e) {
+      // ignore if not supported
+    }
+    audioRef.current.preload = "auto"
     audioRef.current.addEventListener("ended", () => {
       setIsPlaying(false)
     })

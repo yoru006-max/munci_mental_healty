@@ -3,6 +3,7 @@
 import { Card } from "@/components/ui/card"
 import { TrendingUp, Calendar, Heart, Sparkles, Award } from "lucide-react"
 import { Progress } from "@/components/ui/progress"
+import { useEffect, useState } from "react"
 
 export default function RoadPage() {
   // Mock data - in real app this would come from local storage
@@ -36,15 +37,7 @@ export default function RoadPage() {
       <div className="px-6 pb-6 space-y-6 max-w-lg mx-auto">
         {/* Anchor Phrase */}
         <Card className="p-6 bg-gradient-to-br from-primary/20 to-chart-1/20 border-primary/30">
-          <div className="flex items-start gap-3">
-            <Heart className="w-5 h-5 text-primary flex-shrink-0 mt-1" />
-            <div>
-              <h3 className="font-semibold mb-2">Tu frase de anclaje</h3>
-              <p className="text-balance leading-relaxed italic">
-                "Cada día es una oportunidad para cuidarme. Merezco amor y comprensión."
-              </p>
-            </div>
-          </div>
+          <AnchorPhrase />
         </Card>
 
         {/* Days Active */}
@@ -170,6 +163,45 @@ export default function RoadPage() {
             propio.
           </p>
         </Card>
+      </div>
+    </div>
+  )
+}
+
+function AnchorPhrase() {
+  const phrases = [
+    "Cada día es una oportunidad para cuidarme. Merezco amor y comprensión.",
+    "Respiro, me anclo y continúo. Estoy presente ahora.",
+    "Soy suficiente tal como soy en este momento.",
+    "Un paso pequeño también es progreso."
+  ]
+
+  const [phrase, setPhrase] = useState(phrases[0])
+
+  useEffect(() => {
+    // If user saved a custom phrase, use it permanently
+    try {
+      const custom = localStorage.getItem("munci:anchorPhrase")
+      if (custom) {
+        setPhrase(custom)
+        return
+      }
+    } catch (e) {
+      // ignore localStorage errors
+    }
+
+    const dayMs = 24 * 60 * 60 * 1000
+    const dayIndex = Math.floor(Date.now() / dayMs)
+    const index = dayIndex % phrases.length
+    setPhrase(phrases[index])
+  }, [])
+
+  return (
+    <div className="flex items-start gap-3">
+      <Heart className="w-5 h-5 text-primary flex-shrink-0 mt-1" />
+      <div>
+        <h3 className="font-semibold mb-2">Tu frase de anclaje</h3>
+        <p className="text-balance leading-relaxed italic">"{phrase}"</p>
       </div>
     </div>
   )

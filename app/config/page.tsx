@@ -113,14 +113,7 @@ export default function ConfigPage() {
             </Button>
           </Card>
 
-          <Card className="p-4">
-            <Button
-              variant="outline"
-              className="w-full justify-start text-destructive hover:text-destructive bg-transparent"
-            >
-              Borrar todos mis datos
-            </Button>
-          </Card>
+          {/* Opción de borrado removida por seguridad - botón eliminado */}
         </div>
 
         {/* About */}

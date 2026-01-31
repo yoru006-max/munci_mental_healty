@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { AlertCircle, Phone, MessageSquare, X, Eye, Wind } from "lucide-react"
+import { AlertCircle, Phone, MessageSquare, X, Eye, Wind, Zap } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import Link from "next/link"
@@ -27,16 +27,25 @@ export function EmergencyButton() {
         </p>
 
         <div className="space-y-2">
-          <Link href="/grounding" className="block">
+          <Link href="/bonus/breathing" className="block">
             <Button variant="default" className="w-full justify-start gap-2">
+              <Wind className="w-4 h-4" />
+              Ejercicio de respiracion
+            </Button>
+          </Link>
+          <Link href="/grounding" className="block">
+            <Button variant="secondary" className="w-full justify-start gap-2">
               <Eye className="w-4 h-4" />
               Anclaje: 5 cosas que veo
             </Button>
           </Link>
-          <Link href="/bonus/breathing" className="block">
-            <Button variant="secondary" className="w-full justify-start gap-2">
-              <Wind className="w-4 h-4" />
-              Ejercicio de respiracion
+          <Link href="/grounding/touch" className="block">
+            <Button
+              variant="secondary"
+              className="w-full justify-start gap-2"
+            >
+              <Zap className="w-4 h-4" />
+              4 cosas que puedas tocar
             </Button>
           </Link>
           <Button
