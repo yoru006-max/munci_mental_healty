@@ -1,9 +1,10 @@
 "use client"
 
 import { useState } from "react"
-import { AlertCircle, Phone, MessageSquare, X } from "lucide-react"
+import { AlertCircle, Phone, MessageSquare, X, Eye, Wind, Zap } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
+import Link from "next/link"
 
 export function EmergencyButton() {
   const [showEmergency, setShowEmergency] = useState(false)
@@ -14,7 +15,7 @@ export function EmergencyButton() {
         <div className="flex items-start justify-between mb-4">
           <div className="flex items-center gap-2">
             <AlertCircle className="w-5 h-5 text-destructive" />
-            <h3 className="font-semibold text-destructive-foreground">Estoy aquí contigo</h3>
+            <h3 className="font-semibold text-destructive-foreground">Estoy aqui contigo</h3>
           </div>
           <Button variant="ghost" size="icon" onClick={() => setShowEmergency(false)} className="h-8 w-8">
             <X className="w-4 h-4" />
@@ -22,10 +23,31 @@ export function EmergencyButton() {
         </div>
 
         <p className="text-sm mb-4 text-balance leading-relaxed">
-          Respira conmigo. Inhala... Exhala... Estás a salvo. Este momento pasará.
+          Respira conmigo. Inhala... Exhala... Estas a salvo. Este momento pasara.
         </p>
 
         <div className="space-y-2">
+          <Link href="/bonus/breathing" className="block">
+            <Button variant="default" className="w-full justify-start gap-2">
+              <Wind className="w-4 h-4" />
+              Ejercicio de respiracion
+            </Button>
+          </Link>
+          <Link href="/grounding" className="block">
+            <Button variant="secondary" className="w-full justify-start gap-2">
+              <Eye className="w-4 h-4" />
+              Anclaje: 5 cosas que veo
+            </Button>
+          </Link>
+          <Link href="/grounding/touch" className="block">
+            <Button
+              variant="secondary"
+              className="w-full justify-start gap-2"
+            >
+              <Zap className="w-4 h-4" />
+              4 cosas que puedas tocar
+            </Button>
+          </Link>
           <Button
             variant="outline"
             className="w-full justify-start gap-2 bg-transparent"
@@ -41,16 +63,6 @@ export function EmergencyButton() {
           >
             <MessageSquare className="w-4 h-4" />
             Enviar mensaje de ayuda
-          </Button>
-          <Button
-            variant="secondary"
-            className="w-full"
-            onClick={() => {
-              // Navigate to breathing exercise
-              setShowEmergency(false)
-            }}
-          >
-            Ejercicio de respiración
           </Button>
         </div>
       </Card>

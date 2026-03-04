@@ -3,109 +3,109 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* Munci theme - Warm, calming pastels inspired by sunset and nature */
+/* Munci theme - Playful, warm pastels for kids - like tangerines and sunshine */
 :root {
-  /* Warm peachy cream background - like a soft embrace */
-  --background: oklch(0.97 0.02 65);
-  --foreground: oklch(0.35 0.05 30);
+  /* Soft vanilla cream background - warm and cozy like a hug */
+  --background: oklch(0.97 0.025 85);
+  --foreground: oklch(0.32 0.04 50);
 
-  /* Soft lavender cards - calming and gentle */
-  --card: oklch(0.95 0.03 290);
-  --card-foreground: oklch(0.35 0.05 30);
+  /* Soft peach orange cards - warm and playful */
+  --card: oklch(0.95 0.05 55);
+  --card-foreground: oklch(0.32 0.04 50);
 
-  /* Peachy popover - warm and inviting */
-  --popover: oklch(0.96 0.03 50);
-  --popover-foreground: oklch(0.35 0.05 30);
+  /* Creamy lemon popover - cheerful */
+  --popover: oklch(0.96 0.04 95);
+  --popover-foreground: oklch(0.32 0.04 50);
 
-  /* Soft sage green primary - nature's calm */
-  --primary: oklch(0.65 0.08 145);
-  --primary-foreground: oklch(0.98 0.01 145);
+  /* Tangerine orange primary - fun, energetic, kid-friendly */
+  --primary: oklch(0.75 0.14 55);
+  --primary-foreground: oklch(0.98 0.01 55);
 
-  /* Warm blush secondary */
-  --secondary: oklch(0.88 0.05 25);
-  --secondary-foreground: oklch(0.35 0.05 30);
+  /* Soft mint secondary - fresh but warm */
+  --secondary: oklch(0.9 0.06 165);
+  --secondary-foreground: oklch(0.32 0.04 50);
 
-  /* Muted lavender-gray */
-  --muted: oklch(0.92 0.02 280);
-  --muted-foreground: oklch(0.55 0.03 30);
+  /* Soft lilac muted - dreamy and gentle */
+  --muted: oklch(0.92 0.04 310);
+  --muted-foreground: oklch(0.5 0.03 50);
 
-  /* Soft peach accent */
-  --accent: oklch(0.9 0.06 45);
-  --accent-foreground: oklch(0.35 0.05 30);
+  /* Sunny yellow accent - happy and energetic */
+  --accent: oklch(0.92 0.1 95);
+  --accent-foreground: oklch(0.32 0.04 50);
 
-  /* Gentle coral for alerts - not aggressive */
-  --destructive: oklch(0.7 0.15 25);
+  /* Soft coral for alerts - gentle warning */
+  --destructive: oklch(0.68 0.16 25);
   --destructive-foreground: oklch(0.98 0.01 25);
 
-  /* Soft borders */
-  --border: oklch(0.88 0.03 280);
-  --input: oklch(0.9 0.03 280);
-  --ring: oklch(0.65 0.08 145);
+  /* Soft peachy orange borders */
+  --border: oklch(0.9 0.04 55);
+  --input: oklch(0.92 0.04 55);
+  --ring: oklch(0.75 0.14 55);
 
-  /* Warm pastel charts */
-  --chart-1: oklch(0.75 0.12 145); /* sage green */
-  --chart-2: oklch(0.8 0.1 45); /* peach */
-  --chart-3: oklch(0.78 0.08 290); /* lavender */
-  --chart-4: oklch(0.82 0.08 65); /* warm yellow */
-  --chart-5: oklch(0.75 0.1 340); /* soft rose */
+  /* Fun pastel charts - like a rainbow of candy */
+  --chart-1: oklch(0.8 0.12 55); /* tangerine orange */
+  --chart-2: oklch(0.85 0.1 95); /* lemon yellow */
+  --chart-3: oklch(0.8 0.1 165); /* mint green */
+  --chart-4: oklch(0.78 0.1 310); /* lavender */
+  --chart-5: oklch(0.78 0.12 40); /* apricot */
 
-  --radius: 1.25rem;
+  --radius: 1.5rem;
 
-  /* Navigation colors */
-  --sidebar: oklch(0.96 0.03 50);
-  --sidebar-foreground: oklch(0.35 0.05 30);
-  --sidebar-primary: oklch(0.65 0.08 145);
-  --sidebar-primary-foreground: oklch(0.98 0.01 145);
-  --sidebar-accent: oklch(0.9 0.06 45);
-  --sidebar-accent-foreground: oklch(0.35 0.05 30);
-  --sidebar-border: oklch(0.88 0.03 280);
-  --sidebar-ring: oklch(0.65 0.08 145);
+  /* Navigation colors - warm and inviting */
+  --sidebar: oklch(0.96 0.04 95);
+  --sidebar-foreground: oklch(0.32 0.04 50);
+  --sidebar-primary: oklch(0.72 0.14 25);
+  --sidebar-primary-foreground: oklch(0.98 0.01 25);
+  --sidebar-accent: oklch(0.92 0.1 95);
+  --sidebar-accent-foreground: oklch(0.32 0.04 50);
+  --sidebar-border: oklch(0.9 0.04 45);
+  --sidebar-ring: oklch(0.72 0.14 25);
 }
 
 .dark {
-  /* Dark mode - deep, cozy night colors */
-  --background: oklch(0.2 0.03 280);
-  --foreground: oklch(0.95 0.02 50);
+  /* Dark mode - cozy night sky with warm orange undertones */
+  --background: oklch(0.22 0.025 50);
+  --foreground: oklch(0.95 0.03 85);
 
-  --card: oklch(0.25 0.03 280);
-  --card-foreground: oklch(0.95 0.02 50);
+  --card: oklch(0.26 0.035 50);
+  --card-foreground: oklch(0.95 0.03 85);
 
-  --popover: oklch(0.22 0.03 280);
-  --popover-foreground: oklch(0.95 0.02 50);
+  --popover: oklch(0.24 0.025 50);
+  --popover-foreground: oklch(0.95 0.03 85);
 
-  --primary: oklch(0.7 0.1 145);
-  --primary-foreground: oklch(0.2 0.03 145);
+  --primary: oklch(0.75 0.14 55);
+  --primary-foreground: oklch(0.2 0.02 55);
 
-  --secondary: oklch(0.3 0.04 280);
-  --secondary-foreground: oklch(0.95 0.02 50);
+  --secondary: oklch(0.32 0.04 165);
+  --secondary-foreground: oklch(0.95 0.03 85);
 
-  --muted: oklch(0.28 0.03 280);
-  --muted-foreground: oklch(0.65 0.03 280);
+  --muted: oklch(0.3 0.03 310);
+  --muted-foreground: oklch(0.68 0.03 310);
 
-  --accent: oklch(0.75 0.08 45);
-  --accent-foreground: oklch(0.2 0.03 45);
+  --accent: oklch(0.7 0.1 95);
+  --accent-foreground: oklch(0.2 0.02 95);
 
-  --destructive: oklch(0.6 0.18 25);
+  --destructive: oklch(0.62 0.18 25);
   --destructive-foreground: oklch(0.95 0.02 25);
 
-  --border: oklch(0.3 0.03 280);
-  --input: oklch(0.3 0.03 280);
-  --ring: oklch(0.7 0.1 145);
+  --border: oklch(0.35 0.035 50);
+  --input: oklch(0.32 0.035 50);
+  --ring: oklch(0.75 0.14 55);
 
-  --chart-1: oklch(0.7 0.12 145);
-  --chart-2: oklch(0.75 0.1 45);
-  --chart-3: oklch(0.73 0.08 290);
-  --chart-4: oklch(0.77 0.08 65);
-  --chart-5: oklch(0.7 0.1 340);
+  --chart-1: oklch(0.75 0.12 55);
+  --chart-2: oklch(0.78 0.1 95);
+  --chart-3: oklch(0.72 0.1 165);
+  --chart-4: oklch(0.72 0.1 310);
+  --chart-5: oklch(0.72 0.12 40);
 
-  --sidebar: oklch(0.22 0.03 280);
-  --sidebar-foreground: oklch(0.95 0.02 50);
-  --sidebar-primary: oklch(0.7 0.1 145);
-  --sidebar-primary-foreground: oklch(0.2 0.03 145);
-  --sidebar-accent: oklch(0.3 0.04 280);
-  --sidebar-accent-foreground: oklch(0.95 0.02 50);
-  --sidebar-border: oklch(0.3 0.03 280);
-  --sidebar-ring: oklch(0.7 0.1 145);
+  --sidebar: oklch(0.24 0.025 320);
+  --sidebar-foreground: oklch(0.95 0.03 85);
+  --sidebar-primary: oklch(0.75 0.14 25);
+  --sidebar-primary-foreground: oklch(0.2 0.02 25);
+  --sidebar-accent: oklch(0.32 0.04 165);
+  --sidebar-accent-foreground: oklch(0.95 0.03 85);
+  --sidebar-border: oklch(0.35 0.03 340);
+  --sidebar-ring: oklch(0.75 0.14 25);
 }
 
 @theme inline {

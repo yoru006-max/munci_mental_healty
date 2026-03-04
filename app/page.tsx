@@ -3,6 +3,7 @@ import { Card } from "@/components/ui/card"
 import { EmotionSelector } from "@/components/emotion-selector"
 import { EmergencyButton } from "@/components/emergency-button"
 import { DailyQuote } from "@/components/daily-quote"
+import Link from "next/link"
 
 export default function HomePage() {
   return (
@@ -35,29 +36,37 @@ export default function HomePage() {
 
         {/* Quick Actions */}
         <div className="grid grid-cols-2 gap-4">
-          <Card className="p-6 hover:shadow-lg transition-shadow cursor-pointer bg-gradient-to-br from-chart-2/20 to-chart-2/5">
-            <Music className="w-8 h-8 text-chart-2 mb-3" />
-            <h3 className="font-semibold mb-1">Música</h3>
-            <p className="text-xs text-muted-foreground">Sonidos que calman</p>
-          </Card>
+          <Link href="/bonus/music">
+            <Card className="p-6 hover:shadow-lg transition-shadow cursor-pointer bg-gradient-to-br from-chart-2/20 to-chart-2/5">
+              <Music className="w-8 h-8 text-chart-2 mb-3" />
+              <h3 className="font-semibold mb-1">Música</h3>
+              <p className="text-xs text-muted-foreground">Sonidos que calman</p>
+            </Card>
+          </Link>
 
-          <Card className="p-6 hover:shadow-lg transition-shadow cursor-pointer bg-gradient-to-br from-chart-3/20 to-chart-3/5">
-            <MessageCircle className="w-8 h-8 text-chart-3 mb-3" />
-            <h3 className="font-semibold mb-1">Diario</h3>
-            <p className="text-xs text-muted-foreground">Escribe libremente</p>
-          </Card>
+          <Link href="/diary">
+            <Card className="p-6 hover:shadow-lg transition-shadow cursor-pointer bg-gradient-to-br from-chart-3/20 to-chart-3/5">
+              <MessageCircle className="w-8 h-8 text-chart-3 mb-3" />
+              <h3 className="font-semibold mb-1">Diario</h3>
+              <p className="text-xs text-muted-foreground">Escribe libremente</p>
+            </Card>
+          </Link>
 
-          <Card className="p-6 hover:shadow-lg transition-shadow cursor-pointer bg-gradient-to-br from-primary/20 to-primary/5">
-            <Sparkles className="w-8 h-8 text-primary mb-3" />
-            <h3 className="font-semibold mb-1">Respiración</h3>
-            <p className="text-xs text-muted-foreground">Ejercicios guiados</p>
-          </Card>
+          <Link href="/bonus/breathing">
+            <Card className="p-6 hover:shadow-lg transition-shadow cursor-pointer bg-gradient-to-br from-primary/20 to-primary/5">
+              <Sparkles className="w-8 h-8 text-primary mb-3" />
+              <h3 className="font-semibold mb-1">Respiración</h3>
+              <p className="text-xs text-muted-foreground">Ejercicios guiados</p>
+            </Card>
+          </Link>
 
-          <Card className="p-6 hover:shadow-lg transition-shadow cursor-pointer bg-gradient-to-br from-chart-5/20 to-chart-5/5">
-            <AlertCircle className="w-8 h-8 text-chart-5 mb-3" />
-            <h3 className="font-semibold mb-1">Recursos</h3>
-            <p className="text-xs text-muted-foreground">Ayuda profesional</p>
-          </Card>
+          <Link href="/resources">
+            <Card className="p-6 hover:shadow-lg transition-shadow cursor-pointer bg-gradient-to-br from-chart-5/20 to-chart-5/5">
+              <AlertCircle className="w-8 h-8 text-chart-5 mb-3" />
+              <h3 className="font-semibold mb-1">Recursos</h3>
+              <p className="text-xs text-muted-foreground">Ayuda profesional</p>
+            </Card>
+          </Link>
         </div>
 
         {/* Recommendation of the day */}

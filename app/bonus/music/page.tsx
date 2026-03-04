@@ -1,38 +1,98 @@
+"use client"
+
+import { useState, useRef, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
-import { ArrowLeft, Play, Music2 } from "lucide-react"
+import { ArrowLeft, Play, Pause, Music2, Volume2 } from "lucide-react"
 import Link from "next/link"
 
 export default function MusicPage() {
+  const [currentPlaying, setCurrentPlaying] = useState<number | null>(null)
+  const [isPlaying, setIsPlaying] = useState(false)
+  const audioRef = useRef<HTMLAudioElement | null>(null)
+
   const playlists = [
     {
       title: "Calma Profunda",
       description: "Sonidos ambientales y naturaleza",
       mood: "Relajación",
       color: "from-primary/20 to-chart-1/10",
+      url: "https://assets.mixkit.co/music/preview/mixkit-forest-treasure-138.mp3",
     },
     {
       title: "Abrazo Sonoro",
       description: "Melodías suaves y reconfortantes",
       mood: "Consuelo",
       color: "from-chart-2/20 to-accent/10",
+      url: "https://assets.mixkit.co/music/preview/mixkit-serene-view-443.mp3",
     },
     {
       title: "Lluvia Nocturna",
       description: "Sonidos de lluvia para dormir",
       mood: "Sueño",
       color: "from-chart-3/20 to-primary/10",
+      url: "https://assets.mixkit.co/music/preview/mixkit-dreaming-big-31.mp3",
     },
     {
       title: "Respirar Contigo",
       description: "Música para meditar",
       mood: "Meditación",
       color: "from-chart-4/20 to-chart-2/10",
+      url: "https://assets.mixkit.co/music/preview/mixkit-meditation-unity-142.mp3",
     },
   ]
 
+  const playTrack = (index: number) => {
+    if (currentPlaying === index && isPlaying) {
+      audioRef.current?.pause()
+      setIsPlaying(false)
+    } else {
+      if (audioRef.current) {
+        audioRef.current.src = playlists[index].url
+        // ensure browser loads the media and attempt playback with error handling
+        try {
+          audioRef.current.load()
+          const p = audioRef.current.play()
+          if (p && typeof p.then === "function") {
+            p.catch((err) => {
+              console.error("Playback failed:", err)
+              setIsPlaying(false)
+              // provide a simple UI hint
+              alert("No se pudo reproducir el audio. Comprueba la URL o el formato.")
+            })
+          }
+        } catch (err) {
+          console.error("Error al reproducir:", err)
+          setIsPlaying(false)
+          alert("No se pudo reproducir el audio en este navegador.")
+        }
+      }
+      setCurrentPlaying(index)
+      setIsPlaying(true)
+    }
+  }
+
+  useEffect(() => {
+    audioRef.current = new Audio()
+    // allow cross-origin requests if sources require it
+    try {
+      audioRef.current.crossOrigin = "anonymous"
+    } catch (e) {
+      // ignore if not supported
+    }
+    audioRef.current.preload = "auto"
+    audioRef.current.addEventListener("ended", () => {
+      setIsPlaying(false)
+    })
+
+    return () => {
+      audioRef.current?.pause()
+      audioRef.current = null
+    }
+  }, [])
+
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background pb-24">
       <header className="px-6 pt-8 pb-6">
         <div className="max-w-lg mx-auto flex items-center gap-4">
           <Link href="/bonus">
@@ -52,7 +112,11 @@ export default function MusicPage() {
           <Card key={index} className={`p-6 bg-gradient-to-br ${playlist.color}`}>
             <div className="flex items-start gap-4">
               <div className="p-3 rounded-xl bg-background/50">
-                <Music2 className="w-6 h-6 text-primary" />
+                {currentPlaying === index && isPlaying ? (
+                  <Volume2 className="w-6 h-6 text-primary animate-pulse" />
+                ) : (
+                  <Music2 className="w-6 h-6 text-primary" />
+                )}
               </div>
               <div className="flex-1">
                 <div className="flex items-start justify-between mb-2">
@@ -65,8 +129,8 @@ export default function MusicPage() {
                   </div>
                 </div>
               </div>
-              <Button size="icon" variant="ghost" className="flex-shrink-0">
-                <Play className="w-4 h-4" />
+              <Button size="icon" variant="ghost" className="flex-shrink-0" onClick={() => playTrack(index)}>
+                {currentPlaying === index && isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
               </Button>
             </div>
           </Card>
