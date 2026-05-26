@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { AlertCircle, Phone, MessageSquare, X, Eye, Wind, Zap } from "lucide-react"
+import { AlertCircle, Phone, MessageSquare, X, Eye, Wind, Zap, ChevronDown, ChevronUp } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import Link from "next/link"
@@ -9,7 +9,7 @@ import { loadContacts, saveContact, deleteContact, validatePhone, SupportContact
 
 export function EmergencyButton() {
   const [showEmergency, setShowEmergency] = useState(false)
-  const [alertExpanded, setAlertExpanded] = useState(true)
+  const [alertExpanded, setAlertExpanded] = useState(false)
   const [method, setMethod] = useState<"sms" | "whatsapp">("sms")
   const [recipient, setRecipient] = useState("")
   const [message, setMessage] = useState(
@@ -156,18 +156,22 @@ export function EmergencyButton() {
               Llamar a contacto de confianza
             </Button>
 
-            <div className="p-2 border rounded-2xl bg-muted/50">
+            <div className="rounded-2xl border border-destructive/20 bg-destructive/10 overflow-hidden">
               <button
                 type="button"
-                className="w-full rounded-2xl border bg-muted px-4 py-3 text-left text-sm font-semibold text-foreground shadow-sm transition hover:bg-muted/80 flex items-center justify-between"
+                className="w-full rounded-none bg-transparent px-4 py-3 text-left text-sm font-semibold text-destructive transition hover:bg-destructive/20 flex items-center justify-between"
                 onClick={() => setAlertExpanded((prev) => !prev)}
               >
                 <span>Enviar alerta</span>
-                <span className="text-xs font-medium text-primary">{alertExpanded ? 'Ocultar' : 'Mostrar'}</span>
+                {alertExpanded ? (
+                  <ChevronUp className="w-4 h-4 text-primary" />
+                ) : (
+                  <ChevronDown className="w-4 h-4 text-primary" />
+                )}
               </button>
 
               {alertExpanded && (
-                <div className="mt-2 space-y-2">
+                <div className="mt-2 space-y-2 px-4 pb-4 pt-2">
                   <div className="flex gap-2 mb-2">
                     <button
                       className={`px-2 py-1 rounded ${method === "sms" ? "bg-primary text-white" : "bg-transparent"}`}
