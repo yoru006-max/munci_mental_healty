@@ -219,6 +219,11 @@ export default function GroundingPage() {
             type="text"
             value={items[currentStep]}
             onChange={(e) => handleInputChange(currentStep, e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" && items[currentStep].trim()) {
+                handleNext()
+              }
+            }}
             placeholder={current.placeholder}
             className="w-full p-4 rounded-xl bg-background/70 border-2 border-border/50 focus:border-primary focus:outline-none text-center text-lg placeholder:text-muted-foreground/60"
             autoFocus

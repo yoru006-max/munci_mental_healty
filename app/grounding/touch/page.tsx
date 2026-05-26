@@ -47,7 +47,7 @@ export default function TouchGroundingPage() {
     ],
     [
       { prompt: "Toca algo suave y deja que te calme", placeholder: "Ej: Mi piel, una tela, una pelota..." },
-      { prompt: "Busca algo con una textura interesante", placeholder: "Ej: Una corteza, un tejido, madera..." },
+      { prompt: "Busca algo con una textura interesante", placeholder: "Ej: Una corteza, un tejido, algo de madera..." },
       { prompt: "Toca algo frío y siente la diferencia", placeholder: "Ej: Una botella, el aire, agua..." },
       { prompt: "Busca algo que irradie calor", placeholder: "Ej: Una lámpara, mi mano, el radiador..." },
     ],
@@ -207,6 +207,11 @@ export default function TouchGroundingPage() {
             type="text"
             value={items[currentStep]}
             onChange={(e) => handleInputChange(currentStep, e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" && items[currentStep].trim()) {
+                handleNext()
+              }
+            }}
             placeholder={current.placeholder}
             className="w-full p-4 rounded-xl bg-background/70 border-2 border-border/50 focus:border-primary focus:outline-none text-center text-lg placeholder:text-muted-foreground/60"
             autoFocus
