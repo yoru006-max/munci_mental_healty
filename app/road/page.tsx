@@ -25,6 +25,17 @@ export default function RoadPage() {
     { day: "Dom", mood: 5, color: "bg-chart-4" },
   ]
 
+  const getMoodEmoji = (mood: number) => {
+    switch (mood) {
+      case 1: return "😢"
+      case 2: return "😔"
+      case 3: return "😐"
+      case 4: return "😊"
+      case 5: return "😄"
+      default: return "😐"
+    }
+  }
+
   return (
     <div className="min-h-screen bg-background">
       <header className="px-6 pt-8 pb-6">
@@ -64,11 +75,13 @@ export default function RoadPage() {
           <div className="flex items-end justify-between gap-2 h-32 mb-2">
             {recentMood.map((day, index) => (
               <div key={index} className="flex flex-col items-center gap-2 flex-1">
-                <div className="w-full flex items-end justify-center h-full">
+                <div className="w-full flex items-end justify-center h-full relative">
                   <div
-                    className={`w-full rounded-t-lg ${day.color} transition-all`}
+                    className={`w-full rounded-t-lg ${day.color} transition-all flex items-start justify-center pt-2`}
                     style={{ height: `${day.mood * 20}%` }}
-                  />
+                  >
+                    <span className="text-lg">{getMoodEmoji(day.mood)}</span>
+                  </div>
                 </div>
                 <span className="text-xs text-muted-foreground">{day.day}</span>
               </div>
