@@ -5,6 +5,7 @@ import { Card } from "@/components/ui/card"
 import { Switch } from "@/components/ui/switch"
 import { Button } from "@/components/ui/button"
 import { Lock, Bell, Palette, Volume2, Eye, Shield, Moon, Sun } from "lucide-react"
+import Link from "next/link"
 
 export default function ConfigPage() {
   const [darkMode, setDarkMode] = useState(false)
@@ -71,9 +72,11 @@ export default function ConfigPage() {
                 </p>
               </div>
             </div>
-            <Button variant="outline" size="sm" className="w-full bg-transparent">
-              Configurar Bloqueo con PIN
-            </Button>
+            <Link href="/config/security" className="w-full">
+              <Button variant="outline" size="sm" className="w-full bg-transparent">
+                Configurar Bloqueo con PIN
+              </Button>
+            </Link>
           </Card>
         </div>
 
