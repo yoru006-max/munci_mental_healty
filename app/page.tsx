@@ -1,20 +1,71 @@
-import { Heart, MessageCircle, Music, Sparkles, AlertCircle } from "lucide-react"
+'use client'
+
+import { Heart, MessageCircle, Music, Sparkles, AlertCircle, LogOut } from "lucide-react"
 import { Card } from "@/components/ui/card"
 import { EmotionSelector } from "@/components/emotion-selector"
 import { EmergencyButton } from "@/components/emergency-button"
 import { DailyQuote } from "@/components/daily-quote"
+import { isAuthenticated, getCurrentUser, logout as logoutAuth, checkAndLogoutIfExpired } from "@/lib/auth/auth"
+import { useRouter } from "next/navigation"
 import Link from "next/link"
+import { useEffect, useState } from "react"
 
 export default function HomePage() {
+  const router = useRouter()
+  const [user, setUser] = useState<any>(null)
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    // Verificar si la sesión ha expirado
+    if (checkAndLogoutIfExpired()) {
+      router.push('/auth/login')
+      return
+    }
+
+    // Verificar autenticación al montar
+    if (!isAuthenticated()) {
+      router.push('/auth/login')
+      return
+    }
+    
+    setUser(getCurrentUser())
+    setIsLoading(false)
+  }, [router])
+
+  const handleLogout = () => {
+    logoutAuth()
+    router.push('/auth/login')
+  }
+
+  if (isLoading) {
+    return <div className="min-h-screen flex items-center justify-center">Cargando...</div>
+  }
+
+  if (!user) {
+    return null
+  }
+
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
       <header className="px-6 pt-8 pb-6">
-        <div className="max-w-lg mx-auto">
-          <h1 className="text-4xl font-bold text-balance mb-2 bg-gradient-to-r from-primary via-accent to-chart-5 bg-clip-text text-transparent">
-            Munci
-          </h1>
-          <p className="text-muted-foreground text-sm">Tu refugio emocional</p>
+        <div className="max-w-lg mx-auto flex justify-between items-start">
+          <div>
+            <h1 className="text-4xl font-bold text-balance mb-2 bg-gradient-to-r from-primary via-accent to-chart-5 bg-clip-text text-transparent">
+              Munci
+            </h1>
+            <p className="text-muted-foreground text-sm">Tu refugio emocional</p>
+            {user && (
+              <p className="text-xs text-muted-foreground mt-2">Bienvenido, {user.name}</p>
+            )}
+          </div>
+          <button
+            onClick={handleLogout}
+            className="p-2 hover:bg-red-100 rounded-full transition-colors text-red-500"
+            title="Cerrar sesión"
+          >
+            <LogOut className="w-5 h-5" />
+          </button>
         </div>
       </header>
 
