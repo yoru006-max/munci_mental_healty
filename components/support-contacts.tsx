@@ -32,12 +32,12 @@ export default function SupportContacts() {
     const isEmail = validateEmail(val)
     const isPhone = validatePhone(val)
     if (type === 'email' && !isEmail) { setStatus('Correo inválido'); return }
-    if ((type === 'phone' || type === 'whatsapp') && !isPhone) { setStatus('Teléfono inválido. Usa formato +34123456789'); return }
+    if ((type === 'phone' || type === 'whatsapp') && !isPhone) { setStatus('Teléfono inválido. Usa formato +573001234567'); return }
 
     const contact: SupportContact = {
       id: editingId || genId(),
       name: name.trim() || undefined,
-      type: type === 'email' ? 'email' : 'phone',
+      type: type === 'email' ? 'email' : type,
       value: val,
     }
 
@@ -53,7 +53,7 @@ export default function SupportContacts() {
     setEditingId(c.id)
     setName(c.name || '')
     setValue(c.value)
-    setType(c.type === 'email' ? 'email' : 'phone')
+    setType(c.type === 'email' ? 'email' : c.type === 'whatsapp' ? 'whatsapp' : 'phone')
     setStatus(null)
   }
 
@@ -79,7 +79,7 @@ export default function SupportContacts() {
         </select>
 
         <label className="block text-xs mb-1">Número o correo</label>
-        <input value={value} onChange={(e) => setValue(e.target.value)} placeholder={type === 'email' ? 'apoyo@ejemplo.com' : '+34123456789'} className="w-full mb-2 px-2 py-1 rounded border" />
+        <input value={value} onChange={(e) => setValue(e.target.value)} placeholder={type === 'email' ? 'apoyo@ejemplo.com' : '+573001234567'} className="w-full mb-2 px-2 py-1 rounded border" />
 
         <div className="flex gap-2">
           <Button onClick={handleSave} className="w-full">{editingId ? 'Actualizar' : 'Guardar contacto'}</Button>

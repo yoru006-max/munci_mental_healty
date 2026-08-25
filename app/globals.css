@@ -153,7 +153,17 @@
   * {
     @apply border-border outline-ring/50;
   }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
     @apply bg-background text-foreground;
+    min-height: 100vh;
+    max-width: 460px;
+    margin: 0 auto;
+    padding-bottom: calc(5rem + env(safe-area-inset-bottom));
+    overscroll-behavior-y: contain;
   }
 }

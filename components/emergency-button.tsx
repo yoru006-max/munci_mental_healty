@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { AlertCircle, Phone, MessageSquare, X, Eye, Wind, Zap, ChevronDown, ChevronUp } from "lucide-react"
+import { AlertCircle, Phone, X, Eye, Wind, Zap, ChevronDown, ChevronUp } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import Link from "next/link"
@@ -10,12 +10,12 @@ import { loadContacts, saveContact, deleteContact, validatePhone, SupportContact
 export function EmergencyButton() {
   const [showEmergency, setShowEmergency] = useState(false)
   const [alertExpanded, setAlertExpanded] = useState(false)
-  const [method, setMethod] = useState<"sms" | "whatsapp">("sms")
+  const [method, setMethod] = useState<"phone" | "sms" | "whatsapp">("phone")
   const [recipient, setRecipient] = useState("")
   const [message, setMessage] = useState(
     "Hola, estoy pasando por un momento difícil y necesito apoyo. Por favor, respóndeme cuando puedas."
   )
-  const [autoSend, setAutoSend] = useState(false)
+  const [autoSend, setAutoSend] = useState(true)
   const [loading, setLoading] = useState(false)
   const [statusMsg, setStatusMsg] = useState<string | null>(null)
   const [contacts, setContacts] = useState<SupportContact[]>([])
@@ -48,46 +48,64 @@ export function EmergencyButton() {
     return () => window.clearTimeout(timer)
   }, [autoSend, recipient, message, method, lastAutoSentMessage, loading])
 
+  const triggerContactAction = (nextMethod: "phone" | "sms" | "whatsapp", nextRecipient: string, nextMessage: string) => {
+    const to = nextRecipient.trim()
+    if (!to) {
+      setStatusMsg('Introduce un destinatario válido')
+      return false
+    }
+
+    if (nextMethod === 'phone') {
+      const telValue = to.replace(/^tel:/i, '').replace(/\s+/g, '')
+      if (!validatePhone(telValue)) {
+        setStatusMsg('Número inválido. Usa formato internacional, por ejemplo +573001234567')
+        return false
+      }
+      window.location.href = `tel:${telValue}`
+      setStatusMsg('Marcando al contacto de confianza...')
+      return true
+    }
+
+    if (nextMethod === 'sms') {
+      const simpleNumber = to.replace(/^sms:/i, '').replace(/\s+/g, '')
+      if (!validatePhone(simpleNumber)) {
+        setStatusMsg('Número inválido. Usa formato internacional, por ejemplo +573001234567')
+        return false
+      }
+      const body = encodeURIComponent(nextMessage)
+      window.location.href = `sms:${simpleNumber}?body=${body}`
+      setStatusMsg('Abriendo SMS al contacto de confianza...')
+      return true
+    }
+
+    if (nextMethod === 'whatsapp') {
+      const digits = to.replace(/[^0-9]/g, '')
+      if (!digits || digits.length < 8) {
+        setStatusMsg('Número inválido para WhatsApp. Usa formato internacional, por ejemplo +573001234567')
+        return false
+      }
+      const url = `https://wa.me/${digits}?text=${encodeURIComponent(nextMessage)}`
+      window.open(url, '_blank')
+      setStatusMsg('Abriendo WhatsApp para contactar al apoyo...')
+      return true
+    }
+
+    return false
+  }
+
   const sendAutomatic = async () => {
     setLoading(true)
     setStatusMsg(null)
+
     try {
-      // Validar destinatario antes de llamar al API
       const to = recipient.trim()
       if (!to) {
         setStatusMsg('Introduce un destinatario válido')
-        setLoading(false)
-        return
-      }
-
-      if (method === 'sms' || method === 'whatsapp') {
-        if (!validatePhone(to)) {
-          setStatusMsg('Número inválido. Usa formato internacional, por ejemplo +34123456789')
-          setLoading(false)
-          return
-        }
-      }
-
-      const payload = {
-        method,
-        to,
-        message,
-      }
-
-      const res = await fetch('/api/alert', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      })
-
-      const data = await res.json()
-      if (res.ok && data.ok) {
-        setStatusMsg('Alerta enviada correctamente')
-        return true
-      } else {
-        setStatusMsg(`Error: ${data.error || 'no se pudo enviar'}`)
         return false
       }
+
+      const ok = triggerContactAction(method, to, message)
+      return ok
     } catch (err: any) {
       setStatusMsg(`Error: ${err?.message || String(err)}`)
       return false
@@ -162,7 +180,7 @@ export function EmergencyButton() {
                 className="w-full rounded-none bg-transparent px-4 py-3 text-left text-sm font-semibold text-destructive transition hover:bg-destructive/20 flex items-center justify-between"
                 onClick={() => setAlertExpanded((prev) => !prev)}
               >
-                <span>Enviar alerta</span>
+                <span>Marcar llamada de apoyo</span>
                 {alertExpanded ? (
                   <ChevronUp className="w-4 h-4 text-primary" />
                 ) : (
@@ -172,7 +190,14 @@ export function EmergencyButton() {
 
               {alertExpanded && (
                 <div className="mt-2 space-y-2 px-4 pb-4 pt-2">
-                  <div className="flex gap-2 mb-2">
+                  <div className="flex gap-2 mb-2 flex-wrap">
+                    <button
+                      className={`px-2 py-1 rounded ${method === "phone" ? "bg-primary text-white" : "bg-transparent"}`}
+                      onClick={() => setMethod("phone")}
+                      type="button"
+                    >
+                      Llamada
+                    </button>
                     <button
                       className={`px-2 py-1 rounded ${method === "sms" ? "bg-primary text-white" : "bg-transparent"}`}
                       onClick={() => setMethod("sms")}
@@ -190,7 +215,7 @@ export function EmergencyButton() {
                   </div>
 
                   <input
-                    placeholder="Número (ej. +34123456789)"
+                    placeholder="Número de teléfono (ej. +573001234567)"
                     value={recipient}
                     onChange={(e) => setRecipient(e.target.value)}
                     className="w-full mb-2 px-2 py-1 rounded border"
@@ -206,8 +231,8 @@ export function EmergencyButton() {
                               className="text-sm text-left w-full"
                               onClick={() => {
                                 setRecipient(c.value)
-                                if (c.type === 'whatsapp') setMethod('whatsapp')
-                                else if (c.type === 'phone') setMethod('sms')
+                                if (c.type === 'phone') setMethod('phone')
+                                else if (c.type === 'whatsapp') setMethod('whatsapp')
                               }}
                               type="button"
                             >
@@ -230,11 +255,11 @@ export function EmergencyButton() {
                   <div className="flex flex-col gap-2 mb-2">
                     <label className="flex items-center gap-2 text-sm">
                       <input type="checkbox" checked={autoSend} onChange={(e) => setAutoSend(e.target.checked)} />
-                      <span>Enviar automáticamente (usa API)</span>
+                      <span>Marcar automáticamente</span>
                     </label>
                     {autoSend && (
                       <p className="text-xs text-muted-foreground">
-                        Para enviar sin interacción se necesita back-end configurado: variables `TWILIO_*` para SMS/WhatsApp.
+                        La llamada tiene prioridad; si prefieres WhatsApp o SMS, cambia la opción antes de enviar.
                       </p>
                     )}
                   </div>
@@ -284,26 +309,21 @@ export function EmergencyButton() {
                           return
                         }
 
-                        const body = encodeURIComponent(message)
                         const toRaw = recipient.trim()
                         if (!toRaw) { setStatusMsg('Introduce destinatario'); return }
-
-                        if (method === "sms") {
-                          if (!validatePhone(toRaw)) { setStatusMsg('Número inválido. Usa formato +34123456789'); return }
-                          window.location.href = `sms:${toRaw}?body=${body}`
-                          return
-                        }
-
-                        if (method === "whatsapp") {
-                          if (!validatePhone(toRaw)) { setStatusMsg('Número inválido para WhatsApp'); return }
-                          const waNum = toRaw.replace(/[^0-9]/g, '')
-                          const url = `https://wa.me/${waNum}?text=${body}`
-                          window.open(url, '_blank')
-                          return
+                        const ok = triggerContactAction(method, toRaw, message)
+                        if (!ok) {
+                          if (method === 'phone') {
+                            setStatusMsg('Número inválido. Usa formato +573001234567')
+                          } else if (method === 'sms') {
+                            setStatusMsg('Número inválido para SMS. Usa formato +573001234567')
+                          } else {
+                            setStatusMsg('Número inválido para WhatsApp. Usa formato +573001234567')
+                          }
                         }
                       }}
                     >
-                      {loading ? 'Enviando...' : 'Enviar alerta'}
+                      {loading ? 'Procesando...' : method === 'phone' ? 'Llamar ahora' : method === 'sms' ? 'Enviar SMS' : 'Abrir WhatsApp'}
                     </Button>
                     <Button variant="ghost" className="sm:w-auto" onClick={() => { setRecipient(""); setMessage(""); setStatusMsg(null) }}>
                       Limpiar
