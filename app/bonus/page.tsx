@@ -1,4 +1,4 @@
-import { Music, Palette, Gamepad2, Wind, Sparkles, Heart } from "lucide-react"
+import { Music, Palette, Gamepad2, Wind, Sparkles, Heart, BookOpen } from "lucide-react"
 import { Card } from "@/components/ui/card"
 import Link from "next/link"
 
@@ -51,6 +51,14 @@ export default function BonusPage() {
       color: "from-accent/20 to-accent/5",
       iconColor: "text-accent-foreground",
       href: "/bonus/memories",
+    },
+    {
+      icon: BookOpen,
+      title: "Biblioteca",
+      description: "Sube y guarda libros de interés",
+      color: "from-chart-1/20 to-chart-1/5",
+      iconColor: "text-chart-1",
+      href: "/bonus/library",
     },
   ]
 
